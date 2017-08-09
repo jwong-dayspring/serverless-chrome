@@ -1,4 +1,4 @@
-import captureScreenshotHandler from './handlers/captureScreenshot'
+import printContentToPdf from './handlers/printContentToPdf'
 import userConfig from '../config'
 
 // TODO: clean up the flags we don't need/care about
@@ -42,7 +42,7 @@ export default {
   logging: false,
 
   // this is a function which will get executed after chrome has spawned
-  handler: captureScreenshotHandler,
+  handler: printContentToPdf,
 
   // *** //
 

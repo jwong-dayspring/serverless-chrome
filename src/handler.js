@@ -7,6 +7,8 @@ export async function run (event, context, callback, handler = config.handler) {
   let handlerResult = {}
   let handlerError = null
 
+  console.log(event);
+
   try {
     await spawnChrome()
   } catch (error) {
