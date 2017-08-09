@@ -100,14 +100,16 @@ export default (async function printToPdfHandler (event) {
   const printOptions = makePrintOptions(printParameters)
   let pdf
 
+  let content = base64.decode(event.body)
+
   console.log(event)
-  console.log('making pdf for content', event.body)
+  console.log('making pdf for content', content)
   log('Processing PDFification for', printOptions)
 
   const startTime = Date.now()
 
   try {
-    pdf = await printContentToPdf(event.body, printOptions)
+    pdf = await printContentToPdf(content, printOptions)
   } catch (error) {
     console.error('Error printing pdf for', error)
     throw new Error('Unable to print pdf')
@@ -119,13 +121,5 @@ export default (async function printToPdfHandler (event) {
 
   // TODO: probably better to write the pdf to S3,
   // but that's a bit more complicated for this example.
-return {
-    statusCode: 200,
-    // it's not possible to send binary via AWS API Gateway as it expects JSON response from Lambda
-    body: pdf,
-    isBase64Encoded: true,
-    headers: {
-      'Content-Type': 'application/pdf',
-    },
-  }
+  return pdf
 })

@@ -25,3 +25,12 @@ functions:
       - http:
           path: chrome
           method: post
+          integration: lambda
+          contentHandling: CONVERT_TO_BINARY
+          request:
+            template:
+              text/html: '{ "body" : "$util.base64Encode($input.body)" }'
+          response:
+            headers:
+              Content-Type: "'application/pdf'"
+#            template: $util.base64Decode($input.path('$.content'))
