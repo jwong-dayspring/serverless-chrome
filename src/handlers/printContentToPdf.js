@@ -96,7 +96,7 @@ export async function printContentToPdf (content, printOptions = {}) {
 }
 
 export default (async function printToPdfHandler (event) {
-  const { queryStringParameters: { url, ...printParameters } } = event
+  const { queryStringParameters: { ...printParameters } } = event
   const printOptions = makePrintOptions(printParameters)
   let pdf
 
@@ -122,18 +122,10 @@ export default (async function printToPdfHandler (event) {
 return {
     statusCode: 200,
     // it's not possible to send binary via AWS API Gateway as it expects JSON response from Lambda
-    body: `
-      <html>
-        <body>
-          <p><a href="${url}">${url}</a></p>
-          <p><code>${JSON.stringify(printOptions, null, 2)}</code></p>
-          <p>Chromium took ${endTime - startTime} ms to load URL and render PDF.</p>
-          <embed src="data:application/pdf;base64,${pdf}" width="100%" height="100%" type='application/pdf'>
-        </body>
-      </html>
-    `,
+    body: pdf,
+    isBase64Encoded: true,
     headers: {
-      'Content-Type': 'text/html',
+      'Content-Type': 'application/pdf',
     },
   }
 })
