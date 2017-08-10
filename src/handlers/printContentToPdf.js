@@ -96,7 +96,7 @@ export async function printContentToPdf (content, printOptions = {}) {
 }
 
 export default (async function printToPdfHandler (event) {
-  const { queryStringParameters: { ...printParameters } } = event
+  const { querystring: { ...printParameters } } = event.params
   const printOptions = makePrintOptions(printParameters)
   let pdf
 
